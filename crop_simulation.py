@@ -16,6 +16,9 @@ class CropWindow(QMainWindow):
         self.setWindowTitle("Crop Simulator") #set window title
         self.create_select_crop_layout()
 
+        self.stacked_layout = QStackedLayout() #this holds the various layouts this window needs
+        self.stacked_layout.addWidget(self.select_crop_widget)
+
     def create_select_crop_layout(self):
         #this is the initial layout of the window - to select the crop type
 
@@ -30,10 +33,44 @@ class CropWindow(QMainWindow):
         self.select_crop_widget = QWidget()
         self.select_crop_widget.setLayout(self.initial_layout)
 
-        self.setCentralWidget(self.select_crop_widget)
-
         #connections
         self.instantiate_button.clicked.connect(self.instantiate_crop)
+
+    def create_view_crop_layout(self,crop_type):
+        #this is the second layout of the window - view the crop growth
+
+        self.growth_label = QLabel("Growth")
+        self.days_label = QLabel("Days Growing")
+        self.status_label = QLabel("Crop Status")
+
+        self.growth_line_edit = QLineEdit()
+        self.day_line_edit = QLineEdit()
+        self.status_line_edit = QLineEdit()
+
+        self.manual_grow_button = QPushButton("Manually Grow")
+        self.automatic_grow_button = QPushButton("Automatically Grow")
+
+        self.grow_grid = QGridLayout()
+        self.status_grid = QGridLayout()
+
+        #add label widgets to the status layout
+        self.status_grid.addWidget(self.growth_label,0,0)
+        self.status_grid.addWdiget(self,days_label,1,0)
+        self.status_grid.addWdiget(self.status_label,2,0)
+
+        #add line edit widgets to the status layout
+        self.status_grid.addWidget(self.growth_label,0,1)
+        self.status_grid.addWdiget(self,days_label,1,1)
+        self.status_grid.addWdiget(self.status_label,2,1)
+
+        #add widget/layouts to the grow layout
+        self.grow_grid.addLayout(self.status_gried,0,1)
+        self.grow_grid.addLayout(self.manual_grow_button1,0)
+        self.grow_grid.addLayout(self.automatic_grow_button,1,1)
+
+        #create a widget to display the grow layout
+        self.view_crop_widget = QWidget()
+        self.view_crop_widget.setLayout(self.grow_grid)
 
     def instantiate_crop(self):
         crop_type = self.crop_radio_buttons.selected_button() #get the radio that was selected
@@ -41,7 +78,8 @@ class CropWindow(QMainWindow):
             self.simulated_crop = Wheat()
         elif crop_type == 2:
             self.simulated_crop = Potato()
-        print(self.simulated_crop)
+
+        
 def main():
     crop_simulation = QApplication(sys.argv) #create new application
     crop_window = CropWindow() #create new instance of main window
