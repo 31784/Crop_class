@@ -15,7 +15,7 @@ class Crop:
         #These attributes are private and are only accessed from within the class
 
     def needs(self):
-        return {"light need":self._light_need,"water_need":self._water_need}
+        return {"light need":self._light_need,"water need":self._water_need}
 
     def report(self):
         return {"type":self._type,"status":self._status,"growth":self._growth,"days growing":self._days_growing}
@@ -76,13 +76,14 @@ def display_menu():
     print("3. Report status")
     print("0. Exit test program")
     print()
+    print("Please select an option from the above menu")
 
 
 def get_menu_choice():
     option_valid = False
     while not option_valid:
         try:
-            choice = int(input("Please select an option from the above menu >>> "))
+            choice = int(input("option choice >>> "))
             if 0 <= choice <= 4:
                 option_valid = True
             else:
@@ -122,4 +123,3 @@ def main():
 if __name__ == "__main__":
     main()
     
-

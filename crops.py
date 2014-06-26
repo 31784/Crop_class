@@ -1,5 +1,5 @@
-from Wheat_class import *
-from Potato_class import *
+from wheat_class import *
+from potato_class import *
 
 def display_menu():
     print()
@@ -8,19 +8,22 @@ def display_menu():
     print("1. Potato")
     print("2. Wheat")
     print()
-    print("Please select an option from the above menu")
-
+    print("Please choose an option from the above menu")
+    print()
+    
 def select_option():
     valid_option = False
     while not valid_option:
         try:
-            choice = int(input("Option selected: "))
-            if choice in (1,2):
+            choice = int(input("Option choice >>> "))
+            if choice in(1,2):
                 valid_option = True
             else:
                 print("Please enter a valid option")
+                print()
         except ValueError:
             print("Please enter a valid option")
+            print()
     return choice
 
 def create_crop():

@@ -3,37 +3,28 @@ from crop_class import *
 class Wheat(Crop):
     """A wheat crop"""
 
-    #constructor
     def __init__(self):
-        #call the super parent class constructor with default valuves for wheat
-        #growth rate = 1; light need = 3; water need = 6
-        super().__init__(1,3,6)
+        super().__init__(1,4,5)
         self._type = "Wheat"
 
-    #override grow method for subclass
     def grow(self,light,water):
         if light >= self._light_need and water >= self._water_need:
-            if self._status == "Seedling" and water > self._water_need:
+            if self._status == "Seedling":
                 self._growth += self._growth_rate * 1.5
-            elif self._status == "Young" and water > self._water_need:
+            elif self._status == "Young":
                 self._growth += self._growth_rate * 1.25
+            elif self._status == "Mature":
+                 self._growth += self._growth_rate * 1
             else:
-                self._growth += self._growth_rate
-        #increament day growing
+                self._growth += self._growth_rate *0.75
         self._days_growing += 1
-        #update the status
         self._update_status()
 
 def main():
-    #crate a new potato crop
     wheat_crop = Wheat()
     print(wheat_crop.report())
-    #manually grow crop
-    manual_grow(wheat_crop)
-    print(wheat_crop.report())
-    manual_grow(wheat_crop)
+    manual_grow(wheat_crop())
     print(wheat_crop.report())
 
 if __name__ == "__main__":
     main()
-
