@@ -6,6 +6,7 @@ from PyQt4.QtGui import *
 
 from radio_button_widget_class import * #provides the radio button widget
 from manual_grow_dialog_class import * #provides the manual grow dialog window
+from crop_view_class import * #provides the graphical crop status display
 
 from wheat_class import *
 from potato_class import *
@@ -56,6 +57,17 @@ class CropWindow(QMainWindow):
         self.days_line_edit = QLineEdit()
         self.status_line_edit = QLineEdit()
 
+        if crop_type == 1:
+            self.crop_view = WheatView()
+        elif crop_type == 2:
+            self.crop_view = PotatoView()
+
+        #ensure the crop view appears a certain size
+        self.crop_view.setHorizentalScrollBarPolicy(1)
+        self.crop_view.setVerticalScrollBarPolicy(1)
+        self.crop_view.setFixedHeight(182)
+        self.crop_view.setFixedWidth(242)
+
         self.manual_grow_button = QPushButton("Manually Grow")
         self.automatic_grow_button = QPushButton("Automatically Grow")
 
@@ -73,6 +85,7 @@ class CropWindow(QMainWindow):
         self.status_grid.addWidget(self.status_line_edit,2,1)
 
         #add widget/layouts to the grow layout
+        self.grow_grid.addWidget(self.crop_view,0,0)
         self.grow_grid.addLayout(self.status_grid,0,1)
         self.grow_grid.addWidget(self.manual_grow_button,1,0)
         self.grow_grid.addWidget(self.automatic_grow_button,1,1)
@@ -118,7 +131,17 @@ class CropWindow(QMainWindow):
         self.days_line_edit.setText(str(crop_status_report["days growing"]))
         self.status_line_edit.setText(str(crop_status_report["status"]))
 
-        
+        if crop_status_report["status"] == "Seed":
+            self.crop_view.switch_scene(0)
+        if crop_status_report["status"] == "Seedling":
+            self.crop_view.switch_scene(1)
+        if crop_status_report["status"] == "Young":
+            self.crop_view.switch_scene(2)
+        if crop_status_report["status"] == "Mature":
+            self.crop_view.switch_scene(3)
+        if crop_status_report["status"] == "Old":
+            self.crop_view.switch_scene(4)
+            
 def main():
     crop_simulation = QApplication(sys.argv) #create new application
     crop_window = CropWindow() #create new instance of main window
