@@ -3,7 +3,6 @@ from PyQt4.QtGui import *
 class ManualGrowDialog(QDialog):
     """this class provides a dialog window to ask for light and water values"""
 
-    #contructor
     def __init__(self):
         super().__init__()
 
